@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobilförhandsvisning – Skiftly</title>
+  <style>
+    :root {
+      --bezel: #0a0c12;
+      --bg: #11131a;
+      --panel: #1b1f2a;
+      --text: #e7e9ee;
+      --muted: #9aa0ac;
+      --accent: #6366f1;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(circle at 30% 10%, #1a1f33 0%, #0b0d14 60%);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100%;
+      padding: 24px 16px 48px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 16px;
+      border-radius: 14px;
+    }
+    .toolbar h1 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin: 0 12px 0 4px;
+    }
+    .toolbar h1 span { color: var(--accent); }
+    .toolbar label { font-size: 0.8rem; color: var(--muted); }
+
+    .seg {
+      display: inline-flex;
+      background: #0d0f16;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .seg button {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.8rem;
+      padding: 7px 12px;
+      cursor: pointer;
+      transition: all .15s ease;
+    }
+    .seg button.active {
+      background: var(--accent);
+      color: white;
+    }
+    .seg button:hover:not(.active) { color: var(--text); }
+
+    .btn {
+      background: #0d0f16;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.8rem;
+      padding: 7px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .btn:hover { border-color: var(--accent); }
+
+    .stage {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* --- Phone frame --- */
+    .phone {
+      position: relative;
+      background: var(--bezel);
+      border-radius: 52px;
+      padding: 14px;
+      box-shadow:
+        0 0 0 2px #2a2d36,
+        0 30px 70px rgba(0,0,0,0.55);
+      flex-shrink: 0;
+      transition: width .2s ease, height .2s ease;
+    }
+    .phone::before { /* notch */
+      content: "";
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 26px;
+      background: var(--bezel);
+      border-radius: 0 0 18px 18px;
+      z-index: 3;
+    }
+    .phone::after { /* side button */
+      content: "";
+      position: absolute;
+      right: -3px;
+      top: 150px;
+      width: 3px;
+      height: 64px;
+      background: #2a2d36;
+      border-radius: 0 3px 3px 0;
+    }
+    .screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 40px;
+      overflow: hidden;
+      background: #000;
+    }
+    .screen iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .caption {
+      text-align: center;
+      margin-top: 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .hint {
+      margin-top: 28px;
+      max-width: 520px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .hint code {
+      background: #0d0f16;
+      padding: 2px 6px;
+      border-radius: 5px;
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <h1>Mobil<span>förhandsvisning</span></h1>
+
+    <div class="seg" id="device-seg">
+      <button data-w="375" data-h="812" data-label="iPhone X / 13 mini">iPhone mini</button>
+      <button data-w="390" data-h="844" data-label="iPhone 14" class="active">iPhone 14</button>
+      <button data-w="430" data-h="932" data-label="iPhone 16 Pro Max">iPhone Max</button>
+      <button data-w="360" data-h="800" data-label="Android (Pixel)">Android</button>
+    </div>
+
+    <label><input type="checkbox" id="rotate-cb"> Liggande</label>
+
+    <div class="seg" id="view-seg">
+      <button data-view="login">Login</button>
+      <button data-view="dashboard" class="active">Översikt</button>
+      <button data-view="scheduler">Schema</button>
+      <button data-view="analytics">Analys</button>
+    </div>
+
+    <button class="btn" id="reload-btn">↻ Ladda om</button>
+    <button class="btn" id="open-btn">Öppna i ny flik ↗</button>
+  </div>
+
+  <div class="stage">
+    <div>
+      <div class="phone" id="phone">
+        <div class="screen">
+          <iframe id="app-frame" src="/?preview=mobile" title="App preview"></iframe>
+        </div>
+      </div>
+      <div class="caption" id="caption">iPhone 14 · 390 × 844</div>
+    </div>
+  </div>
+
+  <p class="hint">
+    Detta är den riktiga appen (<code>/</code>) inbäddad i en telefonram. Ändra
+    <code>styles.css</code> / <code>app.js</code> och klicka <code>↻ Ladda om</code>
+    för att se uppdateringen direkt. Logga in med ett demokort i ramen.
+  </p>
+
+  <script>
+    const frame   = document.getElementById('app-frame');
+    const phone   = document.getElementById('phone');
+    const caption = document.getElementById('caption');
+    const seg     = document.getElementById('device-seg');
+    const rotate  = document.getElementById('rotate-cb');
+
+    let current = { w: 390, h: 844, label: 'iPhone 14' };
+
+    function applySize() {
+      let w = current.w, h = current.h;
+      if (rotate.checked) { [w, h] = [h, w]; }
+      // The bezel adds 14px padding all around.
+      phone.style.width  = (w + 28) + 'px';
+      phone.style.height = (h + 28) + 'px';
+      caption.textContent = `${current.label} · ${w} × ${h}`;
+    }
+
+    seg.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      seg.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      current = { w: +btn.dataset.w, h: +btn.dataset.h, label: btn.dataset.label };
+      applySize();
+    });
+
+    rotate.addEventListener('change', applySize);
+
+    // --- View switcher: log in (or out) inside the framed app, then go to view ---
+    const ADMIN_USER = {
+      id: "emp-3", name: "Johan Karlsson", role: "Teamlead",
+      email: "johan@skiftly.se", password: "password",
+      wage: 210, contractHours: 40, skills: ["Svenska", "Engelska"]
+    };
+    let currentView = 'dashboard';
+
+    function loadView(view) {
+      currentView = view;
+      try {
+        const ls = frame.contentWindow.localStorage;
+        if (view === 'login') {
+          ls.removeItem('ps_current_user');
+          frame.contentWindow.location.replace('/');
+        } else {
+          ls.setItem('ps_current_user', JSON.stringify(ADMIN_USER));
+          frame.contentWindow.location.replace('/?view=' + view);
+        }
+      } catch (e) {
+        // First load before iframe origin is ready — fall back to a full nav.
+        frame.src = (view === 'login') ? '/' : '/?view=' + view;
+      }
+    }
+
+    document.getElementById('view-seg').addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      document.querySelectorAll('#view-seg button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      loadView(btn.dataset.view);
+    });
+
+    document.getElementById('reload-btn').addEventListener('click', () => loadView(currentView));
+    document.getElementById('open-btn').addEventListener('click', () => {
+      window.open(currentView === 'login' ? '/' : '/?view=' + currentView, '_blank');
+    });
+
+    // Boot straight into the dashboard once the blank first load settles.
+    frame.addEventListener('load', function bootOnce() {
+      frame.removeEventListener('load', bootOnce);
+      loadView('dashboard');
+    });
+
+    applySize();
+  </script>
+</body>
+</html>
