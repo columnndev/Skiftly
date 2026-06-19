@@ -40,21 +40,19 @@ class App {
     this.setupWelcomeScreen();
 
     // 7. Bestäm startläge.
-    // Fast URL till säljsidan: ?start eller ?landing tvingar alltid fram
-    // landningssidan (bra för att demoa/bokmärka), oavsett sparad session.
+    // Säljsidan är alltid "ytterdörren": en ren / visar landningssidan så att nya
+    // besökare aldrig dumpas rakt in i en demo. Man går in i en demo därifrån.
+    // Undantag: en explicit djuplänk (?view= eller ?app) tar dig direkt in om du
+    // har en pågående session — bra för onboarding-länkar och "fortsätt där du var".
     const params = new URLSearchParams(window.location.search);
-    const forceLanding = params.has("start") || params.has("landing");
+    const wantsApp = params.has("view") || params.has("app");
 
     const savedUser = localStorage.getItem("ps_current_user");
-    const hasScenario = localStorage.getItem("ps_scenario");
-    if (forceLanding) {
-      this.showWelcomeScreen();
-    } else if (savedUser) {
+    if (wantsApp && savedUser) {
       this.state.currentUser = JSON.parse(savedUser);
       this.loginSuccess(this.state.currentUser, false); // tyst login utan toast
-    } else if (hasScenario) {
-      this.showLoginScreen();
     } else {
+      // Standard: visa alltid säljsidan/branschväljaren.
       this.showWelcomeScreen();
     }
   }
@@ -157,6 +155,27 @@ class App {
     const contactBtn = document.getElementById("welcome-contact-btn");
     if (contactBtn) {
       contactBtn.addEventListener("click", () => this.requestDemoContact());
+    }
+
+    // "Fortsätt i demon" — visas bara om besökaren redan utforskat en demo.
+    const continueBtn = document.getElementById("welcome-continue-link");
+    if (continueBtn) {
+      const savedUser = localStorage.getItem("ps_current_user");
+      const scenarioId = localStorage.getItem("ps_scenario");
+      if (savedUser) {
+        let company = "demon";
+        if (scenarioId && typeof SCENARIOS !== "undefined" && SCENARIOS[scenarioId]) {
+          company = SCENARIOS[scenarioId].companyName;
+        }
+        continueBtn.textContent = `Fortsätt i ${company}`;
+        continueBtn.style.display = "";
+        continueBtn.addEventListener("click", () => {
+          this.state.currentUser = JSON.parse(savedUser);
+          this.loginSuccess(this.state.currentUser, false);
+        });
+      } else {
+        continueBtn.style.display = "none";
+      }
     }
   }
 

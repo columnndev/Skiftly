@@ -95,6 +95,15 @@ button, input, select, textarea {
   color: inherit;
 }
 
+/* Safety net: an inline <svg> with only a viewBox (no width/height) balloons to
+   fill its container if its specific size rule is ever missing/stale. Cap any
+   such icon to a sane ceiling so it can never take over the screen. Component
+   rules set exact sizes; this only catches the unstyled fallback case. */
+svg:not([width]):not([height]) {
+  max-width: 64px;
+  max-height: 64px;
+}
+
 /* --- Layout Grid --- */
 .app-container {
   display: flex;
