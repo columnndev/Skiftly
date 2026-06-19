@@ -1,5 +1,16 @@
 // Huvudapplikation för Skiftly
 
+// ===========================================================================
+// KONFIG — kontakt & bokning
+// Klistra in din Microsoft Bookings-länk här när den är klar, t.ex.
+//   "https://outlook.office365.com/book/Skiftly@dindomän.onmicrosoft.com/"
+// Lämna tom ("") så används mailto-fallback till CONTACT_EMAIL istället.
+// ===========================================================================
+const SKIFTLY_CONFIG = {
+  bookingUrl: "",                              // <-- Microsoft Bookings-länk hit
+  contactEmail: "alenebrull422@outlook.com"    // mailto-fallback om bokningslänk saknas
+};
+
 class App {
   constructor() {
     this.state = {
@@ -179,15 +190,27 @@ class App {
     }
   }
 
-  // Gemensam åtgärd för "Boka en genomgång" (demo: visar ett trevligt meddelande).
+  // "Boka en genomgång" — öppnar Microsoft Bookings om en länk är konfigurerad,
+  // annars ett förifyllt mejl till kontaktadressen.
   requestDemoContact() {
-    alert(
-      "Tack för intresset! 🎉\n\n" +
-      "I en skarp version skickas du här vidare till ett kontaktformulär " +
-      "eller bokningskalender. Vi bygger sedan Skiftly för just er verksamhet — " +
-      "era roller, öppettider, avtal och team.\n\n" +
-      "Detta är en demo."
+    const url = (SKIFTLY_CONFIG.bookingUrl || "").trim();
+    if (url) {
+      window.open(url, "_blank", "noopener");
+      return;
+    }
+    // Fallback: öppna ett förifyllt mejl.
+    const email = SKIFTLY_CONFIG.contactEmail;
+    const scenarioId = localStorage.getItem("ps_scenario");
+    let bransch = "";
+    if (scenarioId && typeof SCENARIOS !== "undefined" && SCENARIOS[scenarioId]) {
+      bransch = ` (bransch: ${SCENARIOS[scenarioId].name})`;
+    }
+    const subject = encodeURIComponent("Boka en genomgång av Skiftly");
+    const body = encodeURIComponent(
+      `Hej!\n\nVi är intresserade av Skiftly${bransch} och vill boka en genomgång för vår verksamhet.\n\n` +
+      `Företag:\nKontaktperson:\nTelefon:\nAntal anställda:\n\nVänliga hälsningar`
     );
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
   }
 
   // Visar demo-bannern i appen och fyller i aktuell bransch + kopplar knappar.
