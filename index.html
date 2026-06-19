@@ -194,10 +194,31 @@
 
     <!-- Scenario picker -->
     <section class="welcome-scenarios" id="welcome-scenarios">
-      <h2 class="welcome-scenarios-title">Välj din bransch och kliv in i demon</h2>
-      <p class="welcome-scenarios-sub">Vi laddar ett färdigt schema med riktig personal och pass — anpassat för just din verksamhet.</p>
+      <span class="welcome-badge" style="margin-bottom: 16px;">✦ Exempeldemos — inte en färdig produkt</span>
+      <h2 class="welcome-scenarios-title">Välj en bransch och prova på</h2>
+      <p class="welcome-scenarios-sub">
+        Varje demo nedan är ett <strong>exempel</strong> med påhittad personal och pass, för att visa hur Skiftly känns.
+        Den skarpa versionen byggs alltid för er specifika verksamhet.
+      </p>
       <div class="scenario-grid" id="scenario-grid">
         <!-- Fylls i via JavaScript från scenarios.js -->
+      </div>
+    </section>
+
+    <!-- "Byggs för er verksamhet" - tydliggör att skarpa versionen skräddarsys -->
+    <section class="welcome-tailored">
+      <div class="welcome-tailored-inner">
+        <h2 class="welcome-tailored-title">Den skarpa versionen byggs för <span class="brand-accent">er</span></h2>
+        <p class="welcome-tailored-sub">Demon visar hur det fungerar — när ni blir kund anpassar vi allt efter er verksamhet:</p>
+        <div class="welcome-tailored-grid">
+          <div class="welcome-tailored-item"><span>👥</span> Era roller, team och avdelningar</div>
+          <div class="welcome-tailored-item"><span>🕒</span> Era öppettider och pass-mönster</div>
+          <div class="welcome-tailored-item"><span>📋</span> Ert kollektivavtal och era arbetstidsregler</div>
+          <div class="welcome-tailored-item"><span>💰</span> Era löner, OB-tillägg och lönesystem</div>
+          <div class="welcome-tailored-item"><span>🎨</span> Er logotyp, era färger och ert företagsnamn</div>
+          <div class="welcome-tailored-item"><span>📊</span> Era bemanningskrav och täckningsmål</div>
+        </div>
+        <button class="btn btn-primary welcome-cta-main" id="welcome-contact-btn" style="margin-top: 12px;">Boka en genomgång för er verksamhet</button>
       </div>
     </section>
 
@@ -380,6 +401,26 @@
           </button>
         </div>
       </header>
+
+      <!-- ========================================================================== -->
+      <!-- DEMO-BANNER (Tydliggör att detta är en demo som anpassas per kund)         -->
+      <!-- ========================================================================== -->
+      <div class="demo-banner" id="demo-banner">
+        <div class="demo-banner-text">
+          <svg viewBox="0 0 24 24" class="demo-banner-icon"><use href="#icon-info"></use></svg>
+          <span>
+            <strong>Detta är en demo</strong> med exempeldata för
+            <em id="demo-banner-industry">denna bransch</em>.
+            I den skarpa versionen byggs allt – roller, öppettider, avtal och team – för just <strong>er</strong> verksamhet.
+          </span>
+        </div>
+        <div class="demo-banner-actions">
+          <button class="btn btn-primary" id="demo-banner-cta" style="padding: 8px 16px; white-space: nowrap;">Boka en genomgång</button>
+          <button class="demo-banner-close" id="demo-banner-close" title="Dölj" aria-label="Dölj demo-meddelande">
+            <svg viewBox="0 0 24 24"><use href="#icon-close"></use></svg>
+          </button>
+        </div>
+      </div>
 
       <!-- ========================================================================== -->
       <!-- VIEW: DASHBOARD                                                            -->

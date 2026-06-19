@@ -122,9 +122,9 @@ class App {
           <div class="scenario-icon">${sc.icon}</div>
           <div class="scenario-name">${sc.name}</div>
           <div class="scenario-desc">${sc.description}</div>
-          <div class="scenario-company">${sc.companyName}</div>
+          <div class="scenario-company">Exempel: ${sc.companyName}</div>
           <div class="scenario-cta">
-            Öppna demon
+            Prova exempel
             <svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;" viewBox="0 0 24 24"><use href="#icon-chevron-right"></use></svg>
           </div>
         `;
@@ -151,6 +151,60 @@ class App {
         }
         this.showLoginScreen();
       });
+    }
+
+    // "Boka en genomgång"-knappen på säljsidan.
+    const contactBtn = document.getElementById("welcome-contact-btn");
+    if (contactBtn) {
+      contactBtn.addEventListener("click", () => this.requestDemoContact());
+    }
+  }
+
+  // Gemensam åtgärd för "Boka en genomgång" (demo: visar ett trevligt meddelande).
+  requestDemoContact() {
+    alert(
+      "Tack för intresset! 🎉\n\n" +
+      "I en skarp version skickas du här vidare till ett kontaktformulär " +
+      "eller bokningskalender. Vi bygger sedan Skiftly för just er verksamhet — " +
+      "era roller, öppettider, avtal och team.\n\n" +
+      "Detta är en demo."
+    );
+  }
+
+  // Visar demo-bannern i appen och fyller i aktuell bransch + kopplar knappar.
+  setupDemoBanner() {
+    const banner = document.getElementById("demo-banner");
+    if (!banner) return;
+
+    // Sätt branschnamn från aktivt scenario.
+    const scenarioId = localStorage.getItem("ps_scenario");
+    const industryEl = document.getElementById("demo-banner-industry");
+    if (industryEl) {
+      let label = "denna bransch";
+      if (scenarioId && typeof SCENARIOS !== "undefined" && SCENARIOS[scenarioId]) {
+        label = SCENARIOS[scenarioId].name.toLowerCase();
+      }
+      industryEl.textContent = label;
+    }
+
+    // Användaren kan dölja bannern (sparas för sessionen).
+    if (sessionStorage.getItem("ps_demo_banner_closed") === "1") {
+      banner.classList.add("is-hidden");
+    }
+
+    const closeBtn = document.getElementById("demo-banner-close");
+    if (closeBtn && !closeBtn._bound) {
+      closeBtn.addEventListener("click", () => {
+        banner.classList.add("is-hidden");
+        sessionStorage.setItem("ps_demo_banner_closed", "1");
+      });
+      closeBtn._bound = true;
+    }
+
+    const cta = document.getElementById("demo-banner-cta");
+    if (cta && !cta._bound) {
+      cta.addEventListener("click", () => this.requestDemoContact());
+      cta._bound = true;
     }
   }
 
@@ -329,6 +383,9 @@ class App {
     if (showToast) {
       this.showToast(`Välkommen tillbaka, ${user.name}!`, "success");
     }
+
+    // Visa/uppdatera demo-bannern (bransch + knappar).
+    this.setupDemoBanner();
 
     // Gå till vald vy (via ?view= om angiven, annars dashboard)
     const validViews = ["dashboard", "scheduler", "employees", "analytics", "settings"];
