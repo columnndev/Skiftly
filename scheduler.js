@@ -1,4 +1,4 @@
-// Scheduler UI & Drag-and-Drop logik för Skiftly
+// Scheduler UI & Drag-and-Drop logik för Schemly
 
 class SchedulerManager {
   constructor(app) {

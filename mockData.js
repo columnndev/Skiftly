@@ -1,11 +1,11 @@
-// MockData för Skiftly (Svensk bemanningsplanering) — standarddemo (Kundtjänst)
+// MockData för Schemly (Svensk bemanningsplanering) — standarddemo (Kundtjänst)
 
 const DEFAULT_EMPLOYEES = [
   {
     id: "emp-1",
     name: "Elsa Bergström",
     role: "Support", // 'support', 'admin', 'teamlead', 'logistik'
-    email: "elsa.b@skiftly.se",
+    email: "elsa.b@schemly.se",
     password: "password",
     wage: 165, // SEK / timme
     contractHours: 40, // max timmar per vecka
@@ -16,7 +16,7 @@ const DEFAULT_EMPLOYEES = [
     id: "emp-2",
     name: "Lukas Lindqvist",
     role: "Support",
-    email: "lukas.l@skiftly.se",
+    email: "lukas.l@schemly.se",
     password: "password",
     wage: 160,
     contractHours: 35,
@@ -27,7 +27,7 @@ const DEFAULT_EMPLOYEES = [
     id: "emp-3",
     name: "Johan Karlsson",
     role: "Teamlead",
-    email: "johan.k@skiftly.se",
+    email: "johan.k@schemly.se",
     password: "password",
     wage: 210,
     contractHours: 40,
@@ -38,7 +38,7 @@ const DEFAULT_EMPLOYEES = [
     id: "emp-4",
     name: "Karin Nilsson",
     role: "Admin",
-    email: "karin.n@skiftly.se",
+    email: "karin.n@schemly.se",
     password: "password",
     wage: 185,
     contractHours: 30,
@@ -49,7 +49,7 @@ const DEFAULT_EMPLOYEES = [
     id: "emp-5",
     name: "Anders Ek",
     role: "Logistik",
-    email: "anders.e@skiftly.se",
+    email: "anders.e@schemly.se",
     password: "password",
     wage: 170,
     contractHours: 40,
@@ -263,7 +263,7 @@ const DEFAULT_ANNOUNCEMENTS = [
   {
     id: "ann-2",
     title: "Nytt lönesystem",
-    desc: "Från och med nästa månad exporterar vi tidrapporter direkt till vårt nya system Fortnox. Se till att alla tider stämmer i Skiftly.",
+    desc: "Från och med nästa månad exporterar vi tidrapporter direkt till vårt nya system Fortnox. Se till att alla tider stämmer i Schemly.",
     date: "2026-06-15",
     author: "Karin Nilsson"
   }

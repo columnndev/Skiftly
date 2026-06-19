@@ -1,8 +1,8 @@
-# Skiftly
+# Schemly
 
 **Schemaläggning som bara funkar** — ett modernt bemannings- och skiftplaneringssystem för svenska företag.
 
-Skiftly är en interaktiv demo som låter företagare klicka runt i ett färdigt schema anpassat för sin bransch — café, butik, lager eller vård. Allt körs i webbläsaren (ingen backend krävs) och fungerar lika bra på mobil som på dator.
+Schemly är en interaktiv demo som låter företagare klicka runt i ett färdigt schema anpassat för sin bransch — café, butik, lager eller vård. Allt körs i webbläsaren (ingen backend krävs) och fungerar lika bra på mobil som på dator.
 
 ## ✨ Funktioner
 
@@ -28,9 +28,8 @@ npm start
 
 ## 🔗 Användbara URL:er
 
-- `/` — startsida (säljsidan visas för nya besökare).
-- `/?start` eller `/?landing` — visar **alltid** säljsidan/branschväljaren, oavsett sparad session (bra för att demoa).
-- `/?view=scheduler` — länka direkt till en specifik vy efter inloggning.
+- `/` — startsida; säljsidan/branschväljaren visas alltid här (ytterdörren).
+- `/?view=scheduler` — djuplänk rakt in i en vy om man har en pågående session.
 
 ## 🌐 Demo
 

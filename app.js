@@ -1,12 +1,12 @@
-// Huvudapplikation för Skiftly
+// Huvudapplikation för Schemly
 
 // ===========================================================================
 // KONFIG — kontakt & bokning
 // Klistra in din Microsoft Bookings-länk här när den är klar, t.ex.
-//   "https://outlook.office365.com/book/Skiftly@dindomän.onmicrosoft.com/"
-// Lämna tom ("") så används mailto-fallback till CONTACT_EMAIL istället.
+//   "https://outlook.office365.com/book/Schemly@dindomän.onmicrosoft.com/"
+// Lämna tom ("") så används mailto-fallback till contactEmail istället.
 // ===========================================================================
-const SKIFTLY_CONFIG = {
+const SCHEMLY_CONFIG = {
   bookingUrl: "",                              // <-- Microsoft Bookings-länk hit
   contactEmail: "alenebrull422@outlook.com"    // mailto-fallback om bokningslänk saknas
 };
@@ -72,11 +72,11 @@ class App {
   loadState() {
     this.state.employees = JSON.parse(localStorage.getItem("ps_employees")) || [];
     
-    // Auto-migrera gamla e-postdomäner till Skiftly
+    // Auto-migrera gamla e-postdomäner till Schemly
     let migrated = false;
     this.state.employees.forEach(emp => {
       if (emp.email.includes("@proscheduler.se")) {
-        emp.email = emp.email.replace("@proscheduler.se", "@skiftly.se");
+        emp.email = emp.email.replace("@proscheduler.se", "@schemly.se");
         migrated = true;
       }
     });
@@ -193,21 +193,21 @@ class App {
   // "Boka en genomgång" — öppnar Microsoft Bookings om en länk är konfigurerad,
   // annars ett förifyllt mejl till kontaktadressen.
   requestDemoContact() {
-    const url = (SKIFTLY_CONFIG.bookingUrl || "").trim();
+    const url = (SCHEMLY_CONFIG.bookingUrl || "").trim();
     if (url) {
       window.open(url, "_blank", "noopener");
       return;
     }
     // Fallback: öppna ett förifyllt mejl.
-    const email = SKIFTLY_CONFIG.contactEmail;
+    const email = SCHEMLY_CONFIG.contactEmail;
     const scenarioId = localStorage.getItem("ps_scenario");
     let bransch = "";
     if (scenarioId && typeof SCENARIOS !== "undefined" && SCENARIOS[scenarioId]) {
       bransch = ` (bransch: ${SCENARIOS[scenarioId].name})`;
     }
-    const subject = encodeURIComponent("Boka en genomgång av Skiftly");
+    const subject = encodeURIComponent("Boka en genomgång av Schemly");
     const body = encodeURIComponent(
-      `Hej!\n\nVi är intresserade av Skiftly${bransch} och vill boka en genomgång för vår verksamhet.\n\n` +
+      `Hej!\n\nVi är intresserade av Schemly${bransch} och vill boka en genomgång för vår verksamhet.\n\n` +
       `Företag:\nKontaktperson:\nTelefon:\nAntal anställda:\n\nVänliga hälsningar`
     );
     window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
@@ -296,7 +296,7 @@ class App {
       {
         selector: ".auto-schedule-trigger, #nav-scheduler",
         title: "Auto-planera med AI",
-        text: "Har du bråttom? Låt Skiftly föreslå ett komplett schema som täcker behovet per roll och dag — på sekunder."
+        text: "Har du bråttom? Låt Schemly föreslå ett komplett schema som täcker behovet per roll och dag — på sekunder."
       },
       {
         selector: "#nav-analytics",
@@ -479,7 +479,7 @@ class App {
         analytics: "Täckningsgrad & SLA",
         settings: "Inställningar"
       };
-      headerTitle.textContent = titles[viewId] || "Skiftly";
+      headerTitle.textContent = titles[viewId] || "Schemly";
     }
 
     // Specifik logik vid laddning av vyer
@@ -1481,7 +1481,7 @@ class App {
   // --- Löneexport till CSV ---
   exportSalaryReport() {
     const { employees, weekNumber } = this.state;
-    const companyName = document.getElementById("settings-company-name-input")?.value || "Skiftly";
+    const companyName = document.getElementById("settings-company-name-input")?.value || "Schemly";
     const currency = this.getCurrencySymbol();
     
     // Header row
@@ -1527,7 +1527,7 @@ class App {
   // --- Fortnox PA-fil Export ---
   exportFortnoxPA() {
     const { employees, weekNumber } = this.state;
-    const companyName = document.getElementById("settings-company-name-input")?.value || "Skiftly";
+    const companyName = document.getElementById("settings-company-name-input")?.value || "Schemly";
     
     let csvContent = "Personalnr;Datum;Loneart;Kvantitet\n";
     
@@ -1642,7 +1642,7 @@ class App {
   }
 
   // Delar upp ett företagsnamn i en "vanlig del" + en färgad ändelse för logotypen.
-  // Stödjer t.ex. "Skiftly" -> Skift + ly, och äldre "...Schema" -> ... + Schema.
+  // Stödjer t.ex. "Schemly" -> Schem + ly, och äldre "...Schema" -> ... + Schema.
   brandLogoHTML(companyName) {
     const lower = companyName.toLowerCase();
     let base = companyName;
@@ -1661,8 +1661,8 @@ class App {
   }
 
   applyBranding() {
-    const companyName = localStorage.getItem("ps_company_name") || "Skiftly";
-    const companyInitials = localStorage.getItem("ps_company_initials") || "Sk";
+    const companyName = localStorage.getItem("ps_company_name") || "Schemly";
+    const companyInitials = localStorage.getItem("ps_company_initials") || "Sc";
 
     const logoSidebar = document.getElementById("logo-text-sidebar");
     if (logoSidebar) {
@@ -1690,7 +1690,7 @@ class App {
     `;
 
     if (iconSidebar) {
-      if (companyInitials && companyInitials !== "Sk") {
+      if (companyInitials && companyInitials !== "Sc") {
         iconSidebar.innerHTML = initialsHTML;
       } else {
         iconSidebar.innerHTML = sparklesHTML;
@@ -1698,7 +1698,7 @@ class App {
     }
 
     if (iconLogin) {
-      if (companyInitials && companyInitials !== "Sk") {
+      if (companyInitials && companyInitials !== "Sc") {
         iconLogin.innerHTML = `<span style="font-family: var(--font-title); font-weight: 800; font-size: 1.1rem; color: white; line-height: 1; text-transform: uppercase;">${companyInitials}</span>`;
       } else {
         iconLogin.innerHTML = sparklesLoginHTML;
@@ -1744,7 +1744,7 @@ class App {
     const lunchSelect = document.getElementById("settings-lunch-deduction");
     const currencySelect = document.getElementById("settings-currency");
 
-    if (nameInput) localStorage.setItem("ps_company_name", nameInput.value.trim() || "Skiftly");
+    if (nameInput) localStorage.setItem("ps_company_name", nameInput.value.trim() || "Schemly");
     if (initialsInput) localStorage.setItem("ps_company_initials", initialsInput.value.trim().toUpperCase() || "ES");
     
     if (themeSelect) {

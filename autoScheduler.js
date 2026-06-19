@@ -1,4 +1,4 @@
-// AutoScheduler logik för Skiftly
+// AutoScheduler logik för Schemly
 
 /**
  * Genererar ett optimalt schema baserat på personal, efterfrågan och arbetsregler.

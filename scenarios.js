@@ -1,4 +1,4 @@
-// SCENARIOS - Fyra realistiska branschscenarier för Skiftly-demon.
+// SCENARIOS - Fyra realistiska branschscenarier för Schemly-demon.
 // Varje scenario följer exakt samma dataformat som mockData.js (DEFAULT_EMPLOYEES,
 // DEFAULT_SHIFTS, DEFAULT_DEMAND, DEFAULT_ANNOUNCEMENTS, DEFAULT_SWAPS).
 // De fyra tekniska rollerna (Support, Teamlead, Admin, Logistik) återanvänds i alla

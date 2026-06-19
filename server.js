@@ -44,7 +44,7 @@ app.get('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log('===================================================');
-  console.log('  Skiftly server startade framgångsrikt!');
+  console.log('  Schemly server startade framgångsrikt!');
   console.log(`  Öppna appen i webbläsaren: http://localhost:${PORT}`);
   console.log('  Avsluta servern genom att trycka på Ctrl+C');
   console.log('===================================================');
